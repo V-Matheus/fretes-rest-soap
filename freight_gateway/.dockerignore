@@ -1,0 +1,10 @@
+.venv
+venv
+__pycache__
+*.pyc
+node_modules
+*.log
+.git
+dist
+flashlog_service/node_modules
+entregagov_service/node_modules

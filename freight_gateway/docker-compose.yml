@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  flashlog:
+    build:
+      context: ./flashlog_service
+    ports:
+      - '8001:8001'
+    environment:
+      - PORT=8001
+
+  entregagov:
+    build:
+      context: ./entregagov_service
+    ports:
+      - '8002:8002'
+    environment:
+      - PORT=8002
+
+  gateway:
+    build:
+      context: .
+    ports:
+      - '8000:8000'
+    environment:
+      - FLASHLOG_URL=http://flashlog:8001
+      - ENTREGAGOV_URL=http://entregagov:8002
+    depends_on:
+      - flashlog
+      - entregagov
