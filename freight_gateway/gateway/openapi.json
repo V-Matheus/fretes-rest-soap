@@ -1,0 +1,98 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Freight Aggregator API (docs)",
+    "version": "1.0.0",
+    "description": "Aggregator gateway plus provider endpoints (FlashLog REST, EntregaGov SOAP)"
+  },
+  "servers": [
+    { "url": "http://localhost:8000", "description": "Gateway" },
+    { "url": "http://localhost:8001", "description": "FlashLog (REST)" },
+    { "url": "http://localhost:8002", "description": "EntregaGov (SOAP)" }
+  ],
+  "paths": {
+    "/api/fretes": {
+      "get": {
+        "summary": "Get freight options (aggregated)",
+        "parameters": [
+          {
+            "name": "cep",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A unified list of freight options",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "provider": { "type": "string" },
+                          "service": { "type": "string" },
+                          "price": { "type": "number" },
+                          "eta_days": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing cep parameter" }
+        }
+      }
+    },
+    "/fretes": {
+      "get": {
+        "summary": "FlashLog - list fretes (REST)",
+        "parameters": [
+          { "name": "cep", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "FlashLog options",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "options": { "type": "array" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "post": {
+        "summary": "EntregaGov (SOAP) - accepts SOAP XML and returns SOAP XML",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "text/xml": { "schema": { "type": "string", "format": "xml" } },
+            "application/xml": { "schema": { "type": "string", "format": "xml" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SOAP XML response",
+            "content": {
+              "text/xml": { "schema": { "type": "string", "format": "xml" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}
