@@ -2,7 +2,7 @@ version: '3.8'
 services:
   flashlog:
     build:
-      context: ./flashlog_service
+      context: ./backend/flashlog_service
     ports:
       - '8001:8001'
     environment:
@@ -10,7 +10,7 @@ services:
 
   entregagov:
     build:
-      context: ./entregagov_service
+      context: ./backend/entregagov_service
     ports:
       - '8002:8002'
     environment:
@@ -18,7 +18,7 @@ services:
 
   gateway:
     build:
-      context: .
+      context: ./backend/gateway
     ports:
       - '8000:8000'
     environment:
@@ -27,3 +27,11 @@ services:
     depends_on:
       - flashlog
       - entregagov
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      - gateway
