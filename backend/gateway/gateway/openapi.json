@@ -6,7 +6,7 @@
     "description": "Aggregator gateway plus provider endpoints (FlashLog REST, EntregaGov SOAP)"
   },
   "servers": [
-    { "url": "http://localhost:8000", "description": "Gateway" },
+    { "url": "http://localhost:8080", "description": "Gateway" },
     { "url": "http://localhost:8001", "description": "FlashLog (REST)" },
     { "url": "http://localhost:8002", "description": "EntregaGov (SOAP)" }
   ],
